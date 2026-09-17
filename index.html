@@ -7250,9 +7250,10 @@
         linear-gradient(#ffffff, #ffffff) padding-box,
         linear-gradient(135deg, #7c3aed, #0080A3) border-box;
       border: 2px solid transparent;
-      border-radius: 10px;
+      border-radius: 6px;
       padding: 12px 14px;
       margin: 12px 16px 0 40px;
+      max-width: 1280px;
     }
     .v1-ai-icon {
       width: 30px; height: 30px;
@@ -15838,6 +15839,21 @@
       });
     })();
 
+    // Version 1: inject AI Lead Summary into Prospecting cards
+    document.querySelectorAll('#tab-prospecting .lead-card').forEach(function(card) {
+      if (card.querySelector('.v1-ai-summary')) return;
+      var leadId = card.dataset.leadId || '';
+      var text = (v6ProspectingData[leadId] || {}).ai;
+      if (!text) return;
+      var el = document.createElement('div'); el.className = 'v1-ai-summary';
+      el.innerHTML = '<div class="v1-ai-icon">AI</div>'
+        + '<div><span class="v1-ai-label">AI Lead Summary</span>'
+        + '<span class="v1-ai-text">'+text+'</span></div>';
+      var footer = card.querySelector('.cr-card-footer');
+      if (footer) footer.parentNode.insertBefore(el, footer);
+      else { var li = card.querySelector('.lead-info'); if (li) li.appendChild(el); }
+    });
+
     var v6FollowUpData = {
       '2026-07-14T11:00': {
         city: 'Naperville', reg: 'Jun 28 at 7:44 am', calls: '3', lastCall: 'Jul 10',
@@ -16062,6 +16078,21 @@
       });
     })();
 
+    // Version 1: inject AI Lead Summary into Follow Up cards
+    document.querySelectorAll('#tab-followup .lead-card').forEach(function(card) {
+      if (card.querySelector('.v1-ai-summary')) return;
+      var key  = card.dataset.sortDate || '';
+      var text = (v6FollowUpData[key] || {}).ai;
+      if (!text) return;
+      var el = document.createElement('div'); el.className = 'v1-ai-summary';
+      el.innerHTML = '<div class="v1-ai-icon">AI</div>'
+        + '<div><span class="v1-ai-label">AI Lead Summary</span>'
+        + '<span class="v1-ai-text">'+text+'</span></div>';
+      var anchor = card.querySelector('.cr-card-footer') || card.querySelector('.cr-highlights');
+      if (anchor) anchor.parentNode.insertBefore(el, anchor.nextSibling);
+      else { var li = card.querySelector('.lead-info'); if (li) li.appendChild(el); }
+    });
+
     var v6DealReminderData = {
       '2026-07-14T09:00': {
         city: 'Old Town', reg: 'Mar 11 at 6:30 pm', calls: '14', lastCall: 'Jul 16',
@@ -16268,6 +16299,21 @@
       });
     })();
 
+    // Version 1: inject AI Lead Summary into Deal Reminders cards
+    document.querySelectorAll('#tab-deal-reminders .lead-card').forEach(function(card) {
+      if (card.querySelector('.v1-ai-summary')) return;
+      var key  = card.dataset.sortDate || '';
+      var text = (v6DealReminderData[key] || {}).ai;
+      if (!text) return;
+      var el = document.createElement('div'); el.className = 'v1-ai-summary';
+      el.innerHTML = '<div class="v1-ai-icon">AI</div>'
+        + '<div><span class="v1-ai-label">AI Lead Summary</span>'
+        + '<span class="v1-ai-text">'+text+'</span></div>';
+      var anchor = card.querySelector('.cr-card-footer') || card.querySelector('.cr-highlights');
+      if (anchor) anchor.parentNode.insertBefore(el, anchor.nextSibling);
+      else { var li = card.querySelector('.lead-info'); if (li) li.appendChild(el); }
+    });
+
     var v6TrendingData = {
       'high-property-views': {
         city: 'Lincoln Park', reg: 'May 19 at 3:15 pm', calls: '8', lastCall: 'Jul 15 at 11:00 am',
@@ -16409,6 +16455,21 @@
         card.appendChild(ab);
       });
     })();
+
+    // Version 1: inject AI Lead Summary into Trending cards
+    document.querySelectorAll('#tab-trending .lead-card').forEach(function(card) {
+      if (card.querySelector('.v1-ai-summary')) return;
+      var tlType = card.dataset.tlType || '';
+      var text   = (v6TrendingData[tlType] || {}).ai;
+      if (!text) return;
+      var el = document.createElement('div'); el.className = 'v1-ai-summary';
+      el.innerHTML = '<div class="v1-ai-icon">AI</div>'
+        + '<div><span class="v1-ai-label">AI Lead Summary</span>'
+        + '<span class="v1-ai-text">'+text+'</span></div>';
+      var footer = card.querySelector('.cr-card-footer');
+      if (footer) footer.parentNode.insertBefore(el, footer);
+      else { var li = card.querySelector('.lead-info'); if (li) li.appendChild(el); }
+    });
 
     var v6CrNoteData = {
       'property-inquiry': { pinned: true,  ts: 'Jul 14 at 11:45 am', text: 'Prefers 3bd/2ba in Cherry Creek area. Mentioned she\'s renting currently and wants to be in contract within 60 days. Not pre-qualified yet — referred to David at First Western Trust.' },
@@ -16856,7 +16917,7 @@
     })();
 
     // Default style on load
-    setStyle('v4');
+    setStyle('v1');
   </script>
 </body>
 </html>
